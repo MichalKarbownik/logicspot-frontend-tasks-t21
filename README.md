@@ -1,4 +1,4 @@
-## Logicspot Frontend Tasks for Magneto 2
+## Logicspot (http://logicspot.com) Frontend Tasks for Magneto 2
 
 ### General Notes
 
