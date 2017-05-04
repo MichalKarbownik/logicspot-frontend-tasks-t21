@@ -1,13 +1,11 @@
 'use strict';
-module.exports = function() { // eslint-disable-line func-names
-  // Global variables
-  const plugins = this.opts.plugins,
-        config  = this.opts.configs;
+module.exports = function(gulp, config, plugins) { // eslint-disable-line func-names
+    return () => {
+        plugins.browserSync.create();
 
-  plugins.browserSync.create();
-
-  // Load browsersync with config from browser-sync.json
-  plugins.browserSync(
-    require('../helper/config-loader')('browser-sync.json', plugins, config)
-  );
+        // Load browsersync with config from browser-sync.json
+        plugins.browserSync(
+            config.browserSync
+        );
+    };
 };

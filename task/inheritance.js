@@ -1,11 +1,12 @@
 'use strict';
-module.exports = function() { // eslint-disable-line func-names
-  // Global variables
-  const plugins = this.opts.plugins,
-        config  = this.opts.configs,
-        themes  = plugins.getThemes();
+module.exports = function(gulp, config, plugins) { // eslint-disable-line func-names
+   return () => {
+        // Global variables
+        const themes  = plugins.getThemes();
 
-  themes.forEach(name => {
-    require('../helper/inheritance-resolver')(plugins, config, name);
-  });
+        themes.forEach(name => {
+            require('../helper/inheritance-resolver')(plugins, config, name);
+        });
+
+   };
 };

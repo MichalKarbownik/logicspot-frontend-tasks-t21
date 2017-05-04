@@ -1,51 +1,57 @@
 'use strict';
-module.exports = function() { // eslint-disable-line func-names
-  // Global variables
-  const plugins              = this.opts.plugins,
-        config               = this.opts.configs,
-        path                 = require('path'),
+module.exports = function(gulp, config, plugins) { // eslint-disable-line func-names
+	return () => {
 
-        // Create a relative symlink in project root to /vendor/snowdog/frontools
-        relativeDirectory    = path.relative(config.projectPath, plugins.fs.realpathSync('./')),
-        symlinkDirectoryName = plugins.util.env.symlink || 'tools',
+		console.log('No set up currently needed, space here for future additions');
 
-        // Set config files paths
-        configSamplesPath    = './config/',
-        configPath           = config.projectPath + 'dev/tools/frontools/config/';
+		// // Global variables
+		// const plugins              = this.opts.plugins,
+		// 		config               = this.opts.configs,
+		// 		path                 = require('path'),
 
-  try {
-    plugins.fs.symlinkSync(relativeDirectory, config.projectPath + '/' + symlinkDirectoryName, 'dir');
+		// 		// Create a relative symlink in project root to /vendor/snowdog/frontools
+		// 		relativeDirectory    = path.relative(config.projectPath, plugins.fs.realpathSync('./')),
+		// 		symlinkDirectoryName = plugins.util.env.symlink || 'tools',
 
-    plugins.util.log(
-      plugins.util.colors.green('Symlink created. You can now use Frontools from the "' + symlinkDirectoryName + '" directory.')
-    );
-  }
-  catch (error) {
-    plugins.util.log(
-      plugins.util.colors.yellow(symlinkDirectoryName + ' already exists. Skipped it.')
-    );
-  }
+		// 		// Set config files paths
+		// 		configSamplesPath    = './config/',
+		// 		configPath           = config.projectPath + 'dev/tools/frontools/config/';
 
-  // Copy all all non existent config files to /dev/tools/frontools/config/
-  plugins.fs.readdirSync(configSamplesPath).forEach((fileName) => {
-    const newFileName = fileName.replace('.sample', '');
+		// try {
+		// 	plugins.fs.symlinkSync(relativeDirectory, config.projectPath + '/' + symlinkDirectoryName, 'dir');
 
-    try {
-      plugins.fs.copySync(configSamplesPath + fileName, configPath + newFileName, {
-        overwrite: false,
-        errorOnExist: true
-      });
+		// 	plugins.util.log(
+		// 		plugins.util.colors.green('Symlink created. You can now use Frontools from the "' + symlinkDirectoryName + '" directory.')
+		// 	);
+		// }
+		// catch (error) {
+		// 	plugins.util.log(
+		// 		plugins.util.colors.yellow(symlinkDirectoryName + ' already exists. Skipped it.')
+		// 	);
+		// }
 
-      plugins.util.log('File ' + fileName + ' copied to /dev/tools/frontools/config/' + newFileName);
-    }
-    catch (error) {
-      plugins.util.log(
-        plugins.util.colors.yellow('File ' + newFileName + ' already exists. Skipped it.')
-      );
-    }
-  });
+		// // Copy all all non existent config files to /dev/tools/frontools/config/
+		// plugins.fs.readdirSync(configSamplesPath).forEach((fileName) => {
+		// 	const newFileName = fileName.replace('.sample', '');
 
-  plugins.util.log(
-    plugins.util.colors.green('Setup complete! Go to "/dev/tools/frontools/config/" directory and edit the configuration there.')
-  );
+		// 	try {
+		// 		plugins.fs.copySync(configSamplesPath + fileName, configPath + newFileName, {
+		// 			overwrite: false,
+		// 			errorOnExist: true
+		// 		});
+
+		// 		plugins.util.log('File ' + fileName + ' copied to /dev/tools/frontools/config/' + newFileName);
+		// 	}
+		// 	catch (error) {
+		// 		plugins.util.log(
+		// 			plugins.util.colors.yellow('File ' + newFileName + ' already exists. Skipped it.')
+		// 		);
+		// 	}
+		// });
+
+		// plugins.util.log(
+		// 	plugins.util.colors.green('Setup complete! Go to "/dev/tools/frontools/config/" directory and edit the configuration there.')
+		// );
+
+	}
 };

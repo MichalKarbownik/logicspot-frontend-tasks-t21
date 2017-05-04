@@ -1,5 +1,7 @@
 'use strict';
-module.exports = function() { // eslint-disable-line func-names
-  // Open browser-sync session and start watchers
-  this.opts.plugins.runSequence('browser-sync', 'inheritance', 'watch');
+module.exports = function(gulp, config, plugins) { // eslint-disable-line func-names
+   return () => {
+      // Open browser-sync session and start watchers
+      plugins.runSequence('browser-sync', 'inheritance', 'watch');
+   };
 };
