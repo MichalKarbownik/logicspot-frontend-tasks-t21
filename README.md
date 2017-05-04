@@ -21,8 +21,8 @@ Start of with adding this package as a dependency to your project, and setting u
 	"description": "Project",
 	"license": "MIT",
 	"version": "1.0.0",
-	"dependencies": {
-		"logicspot-frontend-tasks": "bitbucket:logicspot/logicspot-frontend-tasks"
+	"devDependencies": {
+		"logicspot-frontend-tasks": "^2.0.0"
 	},
 	"scripts": {
 		"dev":				"gulp dev --config local",

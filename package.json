@@ -1,7 +1,7 @@
 {
   "name": "logicspot-frontend-tasks",
   "description": "Build Tasks for Logicspot Magento 2 sites",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "author": "LogicSpot <developers@logicspot.com> (http://logicspot.com)",
   "repository": {
     "type": "git",
