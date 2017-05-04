@@ -1,8 +1,9 @@
 'use strict';
 module.exports = function (gulp, plugins, config, name, file) { // eslint-disable-line func-names
 	const theme  = config.themes[name],
-		srcBase     = config.projectPath + 'var/view_preprocessed/logicspot' + theme.dest.replace('pub/static', ''),
-		stylesDir   = theme.stylesDir ? theme.stylesDir : 'styles',
+		path        = require('path'),
+        srcBase     = config.projectPath + 'var/view_preprocessed/logicspot' + theme.dest.replace('pub/static', ''),
+        stylesDir   = path.normalize(theme.stylesDir ? theme.stylesDir : 'styles'),
 		disableMaps = plugins.util.env.disableMaps || false,
 		production  = plugins.util.env.prod || false,
 		postcss     = [];
