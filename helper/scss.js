@@ -53,7 +53,7 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
 			.pipe(plugins.if(production, plugins.postcss([plugins.cssnano()])))
 			.pipe(plugins.if(postcss.length, plugins.postcss(postcss || [])))
 			.pipe(plugins.if(!disableMaps && !production, plugins.sourcemaps.write()))
-			// .pipe(plugins.if(production, plugins.rename({ suffix: '.min' }))) // This is annoying
+			.pipe(plugins.if(production, plugins.rename({ suffix: '.min' })))
 			.pipe(plugins.rename(adjustDestinationDirectory))
 			.pipe(plugins.multiDest(dest))
 			.pipe(plugins.logger({
