@@ -84,7 +84,7 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 			}
 
 			// Babel
-			gulp.watch(plugins.globby.sync(srcBase + '/**/*.babel.js'), event => {
+			gulp.watch(plugins.globby.sync(srcBase + '/**/*.js'), event => {
 				plugins.util.log(
 					plugins.util.colors.green('File') + ' '
 					+ plugins.util.colors.blue(event.path.replace(config.tempPath, '')) + ' '
@@ -98,7 +98,7 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 				// I'm usng globby manually, b/c it's a loooot faster
 				plugins.globby.sync([
 					config.projectPath + theme.src + '/**/*.{html,phtml,xml,csv,js}',
-					'!/**/*.babel.js'
+					'!/**/*.js'
 				]),
 				event => {
 					plugins.util.log(
