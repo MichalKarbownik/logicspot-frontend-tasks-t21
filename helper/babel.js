@@ -3,6 +3,8 @@ module.exports = function(gulp, plugins, config, name, file) { // eslint-disable
 	const theme = config.themes[name],
 		srcBase     = config.projectPath + 'var/view_preprocessed/logicspot' + theme.dest.replace('pub/static', ''),
 		stylesDir   = theme.stylesDir ? theme.stylesDir : 'styles',
+		jsDir   	= theme.jsDir ? theme.jsDir : 'web/js',
+		jsFilePattern = theme.jsFilePattern ? theme.jsFilePattern : '/web/js/**/*.js',
 		disableMaps = plugins.util.env.disableMaps || false,
 		production  = plugins.util.env.prod || false,
 		babelConfig = {
@@ -10,7 +12,12 @@ module.exports = function(gulp, plugins, config, name, file) { // eslint-disable
 		};
 
 	function adjustDestinationDirectory(file) {
-		file.dirname = file.dirname.replace('web/', '');
+		if (file.dirname.startsWith(jsDir)) {
+			file.dirname = file.dirname.replace(jsDir, 'js');
+		}
+		else {
+			file.dirname = file.dirname.replace('/' + jsDir, '');
+		}
 		return file;
 	}
 
@@ -21,7 +28,7 @@ module.exports = function(gulp, plugins, config, name, file) { // eslint-disable
 		});
 
 		return gulp.src(
-			file || [srcBase + '/**/*.babel.js', '!**/vendor/**', '!**/packages/**', '!**/node_modules/**'],
+			file || [srcBase + jsFilePattern, '!**/vendor/**', '!**/packages/**', '!**/node_modules/**'],
 			{ base: srcBase }
 		)
 			.pipe(
@@ -50,7 +57,7 @@ module.exports = function(gulp, plugins, config, name, file) { // eslint-disable
 		theme.locale.forEach(locale => {
 			streams.add(
 				gulp.src(
-					file || [srcBase + '/' + locale + '/**/*.babel.js', '!**/vendor/**', '!**/packages/**', '!**/node_modules/**'],
+					file || [srcBase + '/' + locale + jsFilePattern, '!**/vendor/**', '!**/packages/**', '!**/node_modules/**'],
 					{ base: srcBase + '/' + locale }
 				)
 					.pipe(

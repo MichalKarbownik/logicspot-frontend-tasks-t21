@@ -7,7 +7,7 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 			  streams = plugins.mergeStream();
 
 		// Generate all necessary symlinks before styles compilation
-		// plugins.runSequence('inheritance');
+		plugins.runSequence('inheritance');
 
 		// Loop through themes to compile scss or less depending on your config.json
 		themes.forEach(name => {
