@@ -50,7 +50,7 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
 				plugins.sass()
 					.on('error', plugins.sassError.gulpSassError(plugins.util.env.ci || false))
 			)
-			.pipe(plugins.if(production, plugins.postcss([plugins.cssnano()])))
+			.pipe(plugins.if(production, plugins.postcss([plugins.cssnano({ discardUnused: { fontFace: false } })])))
 			.pipe(plugins.if(postcss.length, plugins.postcss(postcss || [])))
 			.pipe(plugins.if(!disableMaps && !production, plugins.sourcemaps.write()))
 			.pipe(plugins.if(production, plugins.rename({ suffix: '.min' })))
@@ -84,10 +84,10 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
 						plugins.sass()
 							.on('error', plugins.sassError.gulpSassError(plugins.util.env.ci || false))
 					)
-					.pipe(plugins.if(production, plugins.postcss([plugins.cssnano()])))
+					.pipe(plugins.if(production, plugins.postcss([plugins.cssnano({ discardUnused: { fontFace: false } })])))
 					.pipe(plugins.if(postcss.length, plugins.postcss(postcss || [])))
 					.pipe(plugins.if(!disableMaps && !production, plugins.sourcemaps.write()))
-					// .pipe(plugins.if(production, plugins.rename({ suffix: '.min' })))  // This is annoying
+					.pipe(plugins.if(production, plugins.rename({ suffix: '.min' })))
 					.pipe(plugins.rename(adjustDestinationDirectory))
 					.pipe(gulp.dest(config.projectPath + theme.dest + '/' + locale))
 					.pipe(plugins.logger({
