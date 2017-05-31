@@ -90,7 +90,7 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 					+ plugins.util.colors.blue(event.path.replace(config.tempPath, '')) + ' '
 					+ plugins.util.colors.green('changed.')
 				);
-				require('../helper/babel')(gulp, plugins, config, name, event.path);
+				require('../helper/javascript')(gulp, plugins, config, name, event.path);
 			});
 
 			// Watching files that require reload after save

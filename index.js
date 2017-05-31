@@ -15,7 +15,7 @@ module.exports = function(customConfig) {
 				'marked-terminal' : 'markedTerminal',
 				'merge-stream'    : 'mergeStream',
 				'postcss-reporter': 'reporter',
-				'run-sequence'    : 'runSequence'
+				'run-sequence'    : 'runSequence',
 			}
 		});
 
@@ -27,6 +27,7 @@ module.exports = function(customConfig) {
 	defaultConfig.modulePath = __dirname + '/';
 	defaultConfig.browserSync = {};
 	defaultConfig.tasksPath = path.resolve( defaultConfig.modulePath + '/task' );
+	defaultConfig.ignore = ['**/vendor/**', '**/packages/**', '**/node_modules/**'];
 
 	const config = Object.assign({}, defaultConfig, customConfig);
 

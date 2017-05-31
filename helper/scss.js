@@ -6,7 +6,12 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
         stylesDir   = path.normalize(theme.stylesDir ? theme.stylesDir : 'styles'),
 		disableMaps = plugins.util.env.disableMaps || false,
 		production  = plugins.util.env.prod || false,
+		themeExclude = [...config.ignore, ...(theme.ignore ? theme.ignore: [])],
 		postcss     = [];
+
+	themeExclude.forEach((value, index, array) => {
+		array[index] = '!' + value;
+	});
 
 	if (theme.postcss) {
 		theme.postcss.forEach(el => {
@@ -34,7 +39,7 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
 		});
 
 		return gulp.src(
-			file || [srcBase + '/**/*.scss', '!**/vendor/**', '!**/packages/**', '!**/node_modules/**'],
+			file || [srcBase + '/**/*.scss', ...themeExclude],
 			{ base: srcBase }
 		)
 			.pipe(
@@ -68,7 +73,7 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
 		theme.locale.forEach(locale => {
 			streams.add(
 				gulp.src(
-					file || [srcBase + '/' + locale + '/**/*.scss', '!**/vendor/**', '!**/packages/**', '!**/node_modules/**'],
+					file || [srcBase + '/' + locale + '/**/*.scss', ...themeExclude],
 					{ base: srcBase + '/' + locale }
 				)
 					.pipe(

@@ -1,15 +1,20 @@
 'use strict';
 module.exports = function(gulp, plugins, config, name, file) { // eslint-disable-line func-names
 	const theme = config.themes[name],
+		path        = require('path'),
 		srcBase     = config.projectPath + 'var/view_preprocessed/logicspot' + theme.dest.replace('pub/static', ''),
-		stylesDir   = theme.stylesDir ? theme.stylesDir : 'styles',
-		jsDir   	= theme.jsDir ? theme.jsDir : 'web/js',
-		jsFilePattern = theme.jsFilePattern ? theme.jsFilePattern : '/web/js/**/*.js',
+		jsDir   	= path.normalize(theme.jsDir ? theme.jsDir : 'web/js'),
+		jsFilePattern = theme.jsFilePattern ? theme.jsFilePattern : 'web/js/**/*.js',
 		disableMaps = plugins.util.env.disableMaps || false,
 		production  = plugins.util.env.prod || false,
+		themeExclude = [...config.ignore, ...(theme.ignore ? theme.ignore: [])],
 		babelConfig = {
 			presets: require('babel-preset-env')
 		};
+
+	themeExclude.forEach((value, index, array) => {
+		array[index] = '!' + value;
+	});
 
 	function adjustDestinationDirectory(file) {
 		if (file.dirname.startsWith(jsDir)) {
@@ -28,7 +33,7 @@ module.exports = function(gulp, plugins, config, name, file) { // eslint-disable
 		});
 
 		return gulp.src(
-			file || [srcBase + jsFilePattern, '!**/vendor/**', '!**/packages/**', '!**/node_modules/**'],
+			file || [srcBase + '/' + jsFilePattern, ...themeExclude],
 			{ base: srcBase }
 		)
 			.pipe(
@@ -57,7 +62,7 @@ module.exports = function(gulp, plugins, config, name, file) { // eslint-disable
 		theme.locale.forEach(locale => {
 			streams.add(
 				gulp.src(
-					file || [srcBase + '/' + locale + jsFilePattern, '!**/vendor/**', '!**/packages/**', '!**/node_modules/**'],
+					file || [srcBase + '/' + locale + jsFilePattern, ...themeExclude],
 					{ base: srcBase + '/' + locale }
 				)
 					.pipe(
