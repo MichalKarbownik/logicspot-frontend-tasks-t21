@@ -7,7 +7,7 @@ Replaces the default Magento 2 grunt tasks to use gulp/sass/babel and all things
 This is a Fork of the Snowdog Apps Frontools, but modified (https://github.com/SnowdogApps/magento2-frontools)
 See their README for additonal help
 
-This repos is currently up to date with "magneto2-fontools": "1.4.4",
+This repos is currently up to date with "magneto2-fontools": "1.5",
 
 ### Adding to your project
 
@@ -74,10 +74,10 @@ Check `config/themes.json.sample` to get samples
 * `deploy` - Symlink or copy all static assets to `pub/static`. Runs `clean` and `inheritance` tasks.
 	* `--theme name` - Specify theme to deploy.
 	* `--prod` - Copy files instead of making symlinks.
-* `dev` - Runs `browser-sync`, `inheritance` and `watch`  tasks.
-	* `--theme name` - Process single theme.
-	* `--enableLinting` - Enable SASS and CSS linting.
-	* `--disableMaps` - Toggles source maps generation.
+* `dev` - Runs [browserSync](https://www.browsersync.io/) and `inheritance`, `babel`, `styles`, `watch` tasks.
+  * `--theme name` - Process single theme.
+  * `--disableLinting` - Disable SASS and CSS linting.
+  * `--disableMaps` - Toggles source maps generation.
 * `eslint` - Watch and run [eslint](https://github.com/adametry/gulp-eslint) on specified JS file.
 	* `--file fileName` - You have to specify what file you want to lint, fileName without .js.
 * `inheritance` - Create necessary symlinks to resolve theme styles inheritance and make the base for styles processing. You have to run in before styles compilation and after adding new files.

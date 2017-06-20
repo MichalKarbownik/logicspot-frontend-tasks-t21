@@ -6,8 +6,6 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
             renderer: new plugins.markedTerminal()
         });
 
-        console.log(config.modulePath);
-
         // eslint-disable-next-line no-console
         console.log(plugins.marked(plugins.fs.readFileSync(config.modulePath + 'README.md', 'UTF-8')));
    }

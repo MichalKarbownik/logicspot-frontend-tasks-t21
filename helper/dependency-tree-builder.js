@@ -1,10 +1,10 @@
 'use strict';
-module.exports = function(theme, file, plugins) { // eslint-disable-line func-names
+module.exports = function(plugins, file) { // eslint-disable-line func-names
 	function findDependencies(file, dependencyTree) {
 		if (plugins.fs.existsSync(file)) {
 			const content = plugins.fs.readFileSync(file, 'utf8'),
-						path    = file.replace(/(.*)\/.*/g, '$1'),
-						regex   = /(?:\n@import )(?:'|")(.*)(?:'|")/g;
+				  path    = file.replace(/(.*)\/.*/g, '$1'),
+				  regex   = /(?:\n@import )(?:'|")(.*)(?:'|")/g;
 
 			let result  = regex.exec(content),
 					imports = [];
