@@ -1,14 +1,14 @@
 {
   "name": "logicspot-frontend-tasks",
   "description": "Build Tasks for Logicspot Magento 2 sites",
-  "version": "2.1",
+  "version": "2.1.0",
   "author": "LogicSpot <developers@logicspot.com> (http://logicspot.com)",
   "repository": {
     "type": "git",
     "url": "https://github.com/LogicSpot/logicspot-frontend-tasks"
   },
   "license": "MIT",
-    "dependencies": {
+  "dependencies": {
     "autoprefixer": "~7.1.0",
     "babel-preset-env": "~1.5.0",
     "browser-sync": "~2.18.12",
@@ -33,9 +33,9 @@
     "gulp-sass": "~3.1.0",
     "gulp-sass-error": "~1.0.5",
     "gulp-sass-lint": "~1.3.2",
+    "gulp-simple-task-loader": "~1.3.8",
     "gulp-sourcemaps": "~2.6.0",
     "gulp-svg-sprite": "~1.3.7",
-    "gulp-simple-task-loader": "~1.3.8",
     "gulp-uglify": "~3.0.0",
     "gulp-util": "~3.0.8",
     "js-yaml": "~3.8.4",

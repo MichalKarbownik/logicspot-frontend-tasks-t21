@@ -4,7 +4,7 @@ module.exports = function(gulp, plugins, config, name, file) { // eslint-disable
 		path        = require('path'),
 		srcBase     = config.projectPath + 'var/view_preprocessed/logicspot' + theme.dest.replace('pub/static', ''),
 		dest        = [],
-		jsDir   	= path.normalize(theme.jsDir ? theme.jsDir : 'web/js'),
+		pathsToClean = [],
 		jsFilePattern = theme.jsFilePattern ? theme.jsFilePattern : 'web/js/**/*.js',
 		disableMaps = plugins.util.env.disableMaps || false,
 		production  = plugins.util.env.prod || false,
@@ -18,21 +18,31 @@ module.exports = function(gulp, plugins, config, name, file) { // eslint-disable
 	});
 
 	function adjustDestinationDirectory(file) {
-		// file.dirname = file.dirname.replace('web/', '');
-		if (file.dirname.startsWith(jsDir)) {
-			file.dirname = file.dirname.replace(jsDir, 'js');
-		}
-		else {
-			file.dirname = file.dirname.replace('/' + jsDir, '');
-		}
+		file.dirname = file.dirname.replace('web/', '');
 		return file;
 	}
-	
+
 	theme.locale.forEach(locale => {
 		dest.push(config.projectPath + theme.dest + '/' + locale);
 	});
 
-	return gulp.src(
+	dest.forEach(destItem => {
+		if(file) {
+			pathsToClean.push(destItem + '/js/' + path.basename(file));
+		} else {
+			pathsToClean.push(destItem + '/js/**/*.js');
+		}
+	});
+	
+	// Clean up folder, because of automatic symlinks
+	gulp.src(
+		pathsToClean,
+		{ read: false }
+	)
+		.pipe(plugins.rimraf({ force: true }));
+	
+	// Run task
+	gulp.src(
 		file || [srcBase + '/' + jsFilePattern, ...themeExclude],
 		{ base: srcBase }
 	)

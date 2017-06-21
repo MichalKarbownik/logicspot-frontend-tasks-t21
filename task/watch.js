@@ -32,8 +32,6 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 				});
 			}
 
-			console.log(themeTempSrc);
-
 			// Initialize watchers
 			const tempWatcher = plugins.chokidar.watch(themeTempSrc, { // eslint-disable-line one-var
 					ignored: themeExclude,
@@ -134,8 +132,6 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 					plugins.util.colors.green('File:') + ' ' +
 					plugins.util.colors.blue(plugins.path.relative(config.projectPath, path))
 				);
-
-				console.log(['change', config.projectPath, path, plugins.path.relative(config.projectPath, path)]);
 
 				// SASS Lint
 				if (plugins.util.env.enableLinting) {

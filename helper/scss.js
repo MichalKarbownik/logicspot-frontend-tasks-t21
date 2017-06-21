@@ -2,13 +2,13 @@
 module.exports = function (gulp, plugins, config, name, file) { // eslint-disable-line func-names
 	const theme  	= config.themes[name],
 		path        = require('path'),
-        srcBase     = config.projectPath + 'var/view_preprocessed/logicspot' + theme.dest.replace('pub/static', ''),
-        stylesDir   = path.normalize(theme.stylesDir ? theme.stylesDir : 'styles'),
-        dest        = [],
+	    srcBase     = config.projectPath + 'var/view_preprocessed/logicspot' + theme.dest.replace('pub/static', ''),
+	    stylesDir   = path.normalize(theme.stylesDir ? theme.stylesDir : 'styles'),
+	    dest        = [],
 		disableMaps = plugins.util.env.disableMaps || false,
 		production  = plugins.util.env.prod || false,
-		postcss     = [],
 		disableSuffix = theme.disableSuffix || false,
+		postcss     = [],
 		themeExclude = [...config.ignore, ...(theme.ignore ? theme.ignore: [])];
 
 	themeExclude.forEach((value, index, array) => {
@@ -19,19 +19,17 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
 		theme.postcss.forEach(el => {
 			postcss.push(eval(el));
 		});
-	}
-	else {
+	} else {
 		postcss.push(plugins.autoprefixer());
 	}
 
 	function adjustDestinationDirectory(file) {
-		console.log(file, file.dirname);
 		if (file.dirname.startsWith(stylesDir)) {
 			file.dirname = file.dirname.replace(stylesDir, 'css');
-		}
-		else {
+		} else {
 			file.dirname = file.dirname.replace('/' + stylesDir, '');
 		}
+		
 		return file;
 	}
 
@@ -54,9 +52,9 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
 		.pipe(plugins.if(!disableMaps && !production, plugins.sourcemaps.init()))
 		.pipe(
 			plugins.sass()
-				.on('error', plugins.sassError.gulpSassError(plugins.util.env.ci || false))
+			.on('error', plugins.sassError.gulpSassError(plugins.util.env.ci || false))
 		)
-		.pipe(plugins.if(production, plugins.postcss([plugins.cssnano({ discardUnused: { fontFace: false } })])))
+		.pipe(plugins.if(production, plugins.postcss([plugins.cssnano()])))
 		.pipe(plugins.if(postcss.length, plugins.postcss(postcss || [])))
 		.pipe(plugins.if(!disableMaps && !production, plugins.sourcemaps.write()))
 		.pipe(plugins.if(production && !disableSuffix, plugins.rename({ suffix: '.min' })))

@@ -49,8 +49,8 @@ module.exports = function(plugins, config, name, tree = true) { // eslint-disabl
 	return new Promise(resolve => {
 		themeDependencyTree(name).forEach(themeName => {
 			const theme = config.themes[themeName],
-				themeSrc = config.projectPath + theme.src,
-				themeDest = config.tempPath + theme.dest.replace('pub/static', '');
+				themeSrc = path.normalize(config.projectPath + theme.src),
+				themeDest = path.normalize(config.tempPath + theme.dest.replace('pub/static', ''));
 
 			// Clean destination dir before generating new symlinks
 			plugins.fs.removeSync(themeDest);
