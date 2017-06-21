@@ -42,7 +42,7 @@ module.exports = function(gulp, plugins, config, name, file) { // eslint-disable
 		.pipe(plugins.rimraf({ force: true }));
 	
 	// Run task
-	gulp.src(
+	return gulp.src(
 		file || [srcBase + '/' + jsFilePattern, ...themeExclude],
 		{ base: srcBase }
 	)

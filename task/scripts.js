@@ -15,5 +15,7 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 		themes.forEach(name => {
 			streams.add(require('../helper/babel')(gulp, plugins, config, name));
 		});
+
+		return streams;
 	}
 };
