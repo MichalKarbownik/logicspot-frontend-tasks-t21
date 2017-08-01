@@ -10,7 +10,7 @@ module.exports = function(gulp, plugins, config, name, file) { // eslint-disable
 		production  = plugins.util.env.prod || false,
 		themeExclude = [...config.ignore, ...(theme.ignore ? theme.ignore: [])],
 		babelConfig = {
-			presets: require('babel-preset-env')
+			presets: ['babel-preset-env', 'babel-preset-react']
 		};
 
 	themeExclude.forEach((value, index, array) => {
