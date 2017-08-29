@@ -1,6 +1,6 @@
 {
 	"theme-name": {
-		"src": "../../modules/logicspot_theme-name",
+		"src": "vendor/logicspot/theme-name",
 		"dest": "pub/static/frontend/logicspot/theme-name",
 		"stylesDir": "web/scss",
 		"locale": ["en_GB"],
