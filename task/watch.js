@@ -4,6 +4,8 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 
 		const themes  = plugins.getThemes();
 
+		config.watcher = require('../helper/config-loader')('watcher.json', plugins, config);
+
 		plugins.path                 = require('path');
 		plugins.helper               = {};
 		plugins.helper.babel         = require('../helper/babel');
@@ -32,19 +34,16 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 				});
 			}
 
+			// Chokidar watcher config
+			const watcherConfig = { // eslint-disable-line one-var
+				ignoreInitial: true,
+				usePolling: config.watcher.usePolling
+			};
+
 			// Initialize watchers
-			const tempWatcher = plugins.chokidar.watch(themeTempSrc, { // eslint-disable-line one-var
-					ignored: themeExclude,
-					ignoreInitial: true
-				}),
-				srcWatcher = plugins.chokidar.watch(themeSrc, {
-					ignored: themeExclude,
-					ignoreInitial: true
-				}),
-				destWatcher = plugins.chokidar.watch(themeDest, {
-					ignored: themeExclude,
-					ignoreInitial: true
-				});
+			const tempWatcher = plugins.chokidar.watch(themeTempSrc, watcherConfig), // eslint-disable-line one-var
+				  srcWatcher = plugins.chokidar.watch(themeSrc, watcherConfig),
+				  destWatcher = plugins.chokidar.watch(themeDest, watcherConfig);
 
 			let reinitTimeout = false,
 				sassDependecyTree = {};

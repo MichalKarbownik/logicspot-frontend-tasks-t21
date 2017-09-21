@@ -61,6 +61,10 @@ Check `config/themes.json.sample` to get samples
 - `modules` - list of modules witch you want to map inside your theme
 - `ignore` - array of ignore patterns
 
+## `watcher.json` structure
+Check `config/watcher.json` to get samples.
+- `usePolling` - set this to `true` to successfully watch files over a network (i.e. Docker or Vagrant) or when your watcher dosen't work well. Warining, enabling this option may lead to high CPU utilization! [chokidar docs](https://github.com/paulmillr/chokidar#performance)
+
 ## Tasks list
 * `scripts` - Run [Babel](https://babeljs.io/), a compiler for writing next generation JavaScript.
 	* `--theme name` - Process single theme.
