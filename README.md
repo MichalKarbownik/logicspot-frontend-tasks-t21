@@ -1,13 +1,13 @@
 ## Logicspot (http://logicspot.com) Frontend Tasks for Magneto 2
 
+This repos is currently up to date with "SnowdogApps/magento2-frontools": "1.5.8",
+
 ### General Notes
 
 Replaces the default Magento 2 grunt tasks to use gulp/sass/babel and all things nice!
 
 This is a Fork of the Snowdog Apps Frontools, but modified (https://github.com/SnowdogApps/magento2-frontools)
 See their README for additonal help
-
-This repos is currently up to date with "magneto2-fontools": "1.5",
 
 ### Adding to your project
 

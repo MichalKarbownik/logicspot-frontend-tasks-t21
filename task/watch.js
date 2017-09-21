@@ -167,14 +167,14 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 				}
 			});
 
-			if(plugins.util.env.enableLinting) {
-				destWatcher.on('change', path => {
-					// CSS Lint
+			destWatcher.on('change', path => {
+				// CSS Lint
+				if (!plugins.util.env.disableLinting) {
 					if (plugins.path.extname(path) === '.css') {
 						plugins.helper.cssLint(gulp, plugins, config, name, path);
 					}
-				});
-			}
+				}
+			});
 
 		});
 
