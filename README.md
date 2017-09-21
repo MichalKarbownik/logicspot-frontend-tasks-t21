@@ -2,6 +2,11 @@
 
 This repos is currently up to date with "SnowdogApps/magento2-frontools": "1.5.8",
 
+### Quick Start
+
+* `gulp dev` - For local dev. Runs [browserSync](https://www.browsersync.io/) and `inheritance`, `scripts`, `styles`, `watch` tasks.
+* `gulp deploy` - Deploy styles. Run `clean`, `inheritance`, `scripts` and `styles` tasks. Everything you should need for a deployment. See below for flags you can add to customize the output.
+
 ### General Notes
 
 Replaces the default Magento 2 grunt tasks to use gulp/sass/babel and all things nice!
@@ -66,6 +71,7 @@ Check `config/watcher.json` to get samples.
 - `usePolling` - set this to `true` to successfully watch files over a network (i.e. Docker or Vagrant) or when your watcher dosen't work well. Warining, enabling this option may lead to high CPU utilization! [chokidar docs](https://github.com/paulmillr/chokidar#performance)
 
 ## Tasks list
+
 * `scripts` - Run [Babel](https://babeljs.io/), a compiler for writing next generation JavaScript.
 	* `--theme name` - Process single theme.
 	* `--prod` - Production output - minifies and uglyfy code.
@@ -78,7 +84,7 @@ Check `config/watcher.json` to get samples.
 * `deploy` - Symlink or copy all static assets to `pub/static`. Runs `clean` and `inheritance` tasks.
 	* `--theme name` - Specify theme to deploy.
 	* `--prod` - Copy files instead of making symlinks.
-* `dev` - Runs [browserSync](https://www.browsersync.io/) and `inheritance`, `babel`, `styles`, `watch` tasks.
+* `dev` - Runs [browserSync](https://www.browsersync.io/) and `inheritance`, `scripts`, `styles`, `watch` tasks.
   * `--theme name` - Process single theme.
   * `--disableLinting` - Disable SASS and CSS linting.
   * `--disableMaps` - Toggles source maps generation.
