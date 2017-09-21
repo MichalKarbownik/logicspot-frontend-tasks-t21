@@ -27,7 +27,7 @@ Start of with adding this package as a dependency to your project, and setting u
 	"license": "MIT",
 	"version": "1.0.0",
 	"devDependencies": {
-		"logicspot-frontend-tasks": "^2.0.0"
+		"logicspot-frontend-tasks": "^2.2.0"
 	},
 	"scripts": {
 	  "dev": "gulp dev",
