@@ -24,8 +24,13 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 			const theme = config.themes[name],
 				  themeTempSrc = config.tempPath + theme.dest.replace('pub/static', ''),
 				  themeDest = config.projectPath + theme.dest,
-				  themeSrc = [config.projectPath + theme.src],
 				  themeExclude = [...config.ignore, ...(theme.ignore ? theme.ignore: [])];
+
+			themeExclude.forEach((value, index, array) => {
+				array[index] = '!' + value;
+			});
+
+			const themeSrc = [config.projectPath + theme.src, ...themeExclude];
 
 			// Add modules source directeoried to theme source paths array
 			if (theme.modules) {
@@ -96,7 +101,7 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 						tempWatcher.add(themeTempSrc);
 
 						// Emit event on added / moved / renamed / deleted file to trigger regualr pipeline
-						plugins.globby.sync(themeTempSrc + '/**/' + plugins.path.basename(path))
+						plugins.globby.sync([themeTempSrc + '/**/' + plugins.path.basename(path), ...themeExclude])
 							.forEach(file => {
 								tempWatcher.emit('change', file);
 							});

@@ -27,7 +27,7 @@ module.exports = function(customConfig) {
 	defaultConfig.modulePath = __dirname + '/';
 	defaultConfig.browserSync = {};
 	defaultConfig.tasksPath = path.resolve( defaultConfig.modulePath + '/task' );
-	defaultConfig.ignore = ['**/vendor/**', '**/packages/**', '**/node_modules/**', '../**/.git/*', '**/.git/**.*'];
+	defaultConfig.ignore = ['**/vendor/**', '**/packages/**', '**/node_modules/**', '**/.idea/**', '../**/.git/*', '**/.git/**.*'];
 
 	const config = Object.assign({}, defaultConfig, customConfig);
 
