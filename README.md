@@ -30,13 +30,13 @@ Start of with adding this package as a dependency to your project, and setting u
 		"logicspot-frontend-tasks": "^2.0.0"
 	},
 	"scripts": {
-		"dev":				"gulp dev --config local",
-		"deploy:local":		"gulp deploy --ci",
-		"deploy:dev":		"gulp deploy --ci",
-		"deploy:staging":	"gulp deploy --ci --prod",
-		"deploy:live":		"gulp deploy --ci --prod",
-		"deploy:test":		"gulp deploy --ci --prod"
-	}
+	  "dev": "gulp dev",
+	  "deploy:local": "gulp deploy --ci",
+	  "deploy:dev": "gulp deploy --config vendor --ci",
+	  "deploy:staging": "gulp deploy --config vendor --ci --prod",
+	  "deploy:live": "gulp deploy --config vendor --ci --prod",
+	  "deploy:test": "gulp deploy --config vendor --ci --prod"
+	},
 }
 ```
 
