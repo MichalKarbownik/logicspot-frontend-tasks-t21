@@ -1,16 +1,16 @@
 'use strict';
-module.exports = function(gulp, plugins, config, name, file) { // eslint-disable-line func-names
+module.exports = function (gulp, plugins, config, name, file) { // eslint-disable-line func-names
 	const theme = config.themes[name],
-		path        = require('path'),
-		srcBase     = config.projectPath + 'var/view_preprocessed/logicspot' + theme.dest.replace('pub/static', ''),
-		dest        = [],
+		path = require('path'),
+		srcBase = config.projectPath + 'var/view_preprocessed/logicspot' + theme.dest.replace('pub/static', ''),
+		dest = [],
 		pathsToClean = [],
 		jsFilePattern = theme.jsFilePattern ? theme.jsFilePattern : 'web/js/**/*.js',
 		disableMaps = plugins.util.env.disableMaps || false,
-		production  = plugins.util.env.prod || false,
-		themeExclude = [...config.ignore, ...(theme.ignore ? theme.ignore: [])],
+		production = plugins.util.env.prod || false,
+		themeExclude = [...config.ignore, ...(theme.ignore ? theme.ignore : [])],
 		babelConfig = {
-			presets: ['babel-preset-env', 'babel-preset-react']
+			presets: ['env', 'react']
 		};
 
 	themeExclude.forEach((value, index, array) => {
@@ -27,43 +27,43 @@ module.exports = function(gulp, plugins, config, name, file) { // eslint-disable
 	});
 
 	dest.forEach(destItem => {
-		if(file) {
+		if (file) {
 			pathsToClean.push(destItem + '/js/' + path.basename(file));
 		} else {
 			pathsToClean.push(destItem + '/js/**/*.js');
 		}
 	});
-	
+
 	// Cleanup existing files from pub to remove symlinks
 	plugins.globby.sync(file || srcBase + '/**/*.babel.js')
 		.forEach(file => {
 			theme.locale.forEach(locale => {
-		  		plugins.fs.removeSync(
+				plugins.fs.removeSync(
 					file
-			  		.replace(
+						.replace(
 						srcBase,
 						config.projectPath + theme.dest + '/' + locale
-			  		)
-			  		.replace(
+						)
+						.replace(
 						new RegExp('web\/([^_]*)$'),
 						'$1'
-			  		)
-		  		);
+						)
+				);
 			});
-	  	});
-	
+		});
+
 	// Run task
 	return gulp.src(
 		file || [srcBase + '/' + jsFilePattern, ...themeExclude],
 		{ base: srcBase }
 	)
 		.pipe(
-			plugins.if(
-				!plugins.util.env.ci,
-				plugins.plumber({
-					errorHandler: plugins.notify.onError('Error: <%= error.message %>')
-				})
-			)
+		plugins.if(
+			!plugins.util.env.ci,
+			plugins.plumber({
+				errorHandler: plugins.notify.onError('Error: <%= error.message %>')
+			})
+		)
 		)
 		.pipe(plugins.if(!disableMaps && !production, plugins.sourcemaps.init()))
 		.pipe(plugins.babel(babelConfig))
@@ -73,9 +73,9 @@ module.exports = function(gulp, plugins, config, name, file) { // eslint-disable
 		.pipe(plugins.rename(adjustDestinationDirectory))
 		.pipe(plugins.multiDest(dest))
 		.pipe(plugins.logger({
-			display   : 'name',
+			display: 'name',
 			beforeEach: 'Theme: ' + name + ' ',
-			afterEach : ' Compiled!'
+			afterEach: ' Compiled!'
 		}))
 		.pipe(plugins.browserSync.stream());
 };
