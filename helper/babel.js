@@ -52,10 +52,11 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
 			});
 		});
 
+
 	// Run task
 	return gulp.src(
 		file || [srcBase + '/' + jsFilePattern, ...themeExclude],
-		{ base: srcBase }
+		{ base: './' }
 	)
 		.pipe(
 		plugins.if(

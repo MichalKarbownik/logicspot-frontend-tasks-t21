@@ -1,7 +1,7 @@
 'use strict';
-module.exports = function(plugins, config, name, tree = true) { // eslint-disable-line func-names
+module.exports = function (plugins, config, name, tree = true) { // eslint-disable-line func-names
 	const path = require('path'),
-		  ignorePaths = config.themes[name].ignore || [];
+		ignorePaths = config.themes[name].ignore || [];
 
 	function createSymlink(srcPath, destPath) {
 		plugins.fs.removeSync(destPath);
@@ -9,10 +9,6 @@ module.exports = function(plugins, config, name, tree = true) { // eslint-disabl
 	}
 
 	function generateSymlinks(src, dest, replacePattern, ignore = []) {
-		// Ensure paths are relative
-		src = path.relative(config.projectPath, src);
-		dest = path.relative(config.projectPath, dest);
-
 		plugins.globby.sync(
 			[src + '/**'].concat(ignore.map(pattern => '!/**/' + pattern)),
 			{ nodir: true }
