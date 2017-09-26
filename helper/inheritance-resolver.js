@@ -13,9 +13,12 @@ module.exports = function (plugins, config, name, tree = true) { // eslint-disab
 			[src + '/**'].concat(ignore.map(pattern => '!/**/' + pattern)),
 			{ nodir: true }
 		).forEach(srcPath => {
+			let cleanSrcPath = srcPath.replace(/^(\.\.\/)*/, '');
+			let cleanSrc = src.replace(/^(\.\.\/)*/, '');
+
 			createSymlink(
 				srcPath,
-				path.join(dest, srcPath).replace(src + '/', replacePattern + '/')
+				path.join(dest, cleanSrcPath).replace(cleanSrc + '/', (replacePattern.length > 0 ? replacePattern + '/' : ''))
 			);
 		});
 	}
