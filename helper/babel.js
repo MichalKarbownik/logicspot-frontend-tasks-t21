@@ -14,8 +14,9 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
 		};
 
 	themeExclude.forEach((value, index, array) => {
-		array[index] = '!' + value;
-	});
+    array[index] = '!' + value;
+    array[index] = '!./' + value;
+  });
 
 	function adjustDestinationDirectory(file) {
 		file.dirname = file.dirname.replace('web/', '');
@@ -26,57 +27,47 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
 		dest.push(config.projectPath + theme.dest + '/' + locale);
 	});
 
-	dest.forEach(destItem => {
-		if (file) {
-			pathsToClean.push(destItem + '/js/' + path.basename(file));
-		} else {
-			pathsToClean.push(destItem + '/js/**/*.js');
-		}
-	});
+  // Cleanup existing files from pub to remove symlinks
+  plugins.globby.sync(file || [srcBase + '/**/*.js', ...themeExclude])
+    .forEach(file => {
+      theme.locale.forEach(locale => {
+        plugins.fs.removeSync(
+          file
+            .replace(
+              srcBase,
+              config.projectPath + theme.dest + '/' + locale
+            )
+            .replace(
+              new RegExp('web\/([^_]*)$'),
+              '$1'
+            )
+        );
+      });
+    });
 
-	// Cleanup existing files from pub to remove symlinks
-	plugins.globby.sync(file || srcBase + '/**/*.babel.js')
-		.forEach(file => {
-			theme.locale.forEach(locale => {
-				plugins.fs.removeSync(
-					file
-						.replace(
-						srcBase,
-						config.projectPath + theme.dest + '/' + locale
-						)
-						.replace(
-						new RegExp('web\/([^_]*)$'),
-						'$1'
-						)
-				);
-			});
-		});
-
-
-	// Run task
 	return gulp.src(
 		file || [srcBase + '/' + jsFilePattern, ...themeExclude],
-		{ base: './' }
+		{ base: srcBase }
 	)
-		.pipe(
-		plugins.if(
-			!plugins.util.env.ci,
-			plugins.plumber({
-				errorHandler: plugins.notify.onError('Error: <%= error.message %>')
-			})
-		)
-		)
-		.pipe(plugins.if(!disableMaps && !production, plugins.sourcemaps.init()))
-		.pipe(plugins.babel(babelConfig))
-		.pipe(plugins.if(production, plugins.uglify()))
-		.pipe(plugins.if(!disableMaps && !production, plugins.sourcemaps.write()))
-		// .pipe(plugins.if(production, plugins.rename({ suffix: '.min' })))
-		.pipe(plugins.rename(adjustDestinationDirectory))
-		.pipe(plugins.multiDest(dest))
-		.pipe(plugins.logger({
-			display: 'name',
-			beforeEach: 'Theme: ' + name + ' ',
-			afterEach: ' Compiled!'
-		}))
-		.pipe(plugins.browserSync.stream());
+    .pipe(
+      plugins.if(
+        !plugins.util.env.ci,
+        plugins.plumber({
+          errorHandler: plugins.notify.onError('Error: <%= error.message %>')
+        })
+      )
+    )
+    .pipe(plugins.if(!disableMaps && !production, plugins.sourcemaps.init()))
+    .pipe(plugins.babel(babelConfig))
+    .pipe(plugins.if(production, plugins.uglify()))
+    .pipe(plugins.if(!disableMaps && !production, plugins.sourcemaps.write()))
+    .pipe(plugins.if(production, plugins.rename({ suffix: '.min' })))
+    .pipe(plugins.rename(adjustDestinationDirectory))
+    .pipe(plugins.multiDest(dest))
+    .pipe(plugins.logger({
+      display   : 'name',
+      beforeEach: 'Theme: ' + name + ' ',
+      afterEach : ' Compiled!'
+    }))
+    .pipe(plugins.browserSync.stream());
 };

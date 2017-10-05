@@ -11,9 +11,10 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
 		postcss     = [],
 		themeExclude = [...config.ignore, ...(theme.ignore ? theme.ignore: [])];
 
-	themeExclude.forEach((value, index, array) => {
-		array[index] = '!' + value;
-	});
+		themeExclude.forEach((value, index, array) => {
+			array[index] = '!' + value;
+			array[index] = '!./' + value;
+		});
 
 	if (theme.postcss) {
 		theme.postcss.forEach(el => {

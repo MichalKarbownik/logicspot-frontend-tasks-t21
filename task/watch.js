@@ -28,6 +28,7 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 
 			themeExclude.forEach((value, index, array) => {
 				array[index] = '!' + value;
+				array[index] = '!./' + value;
 			});
 
 			const themeSrc = [config.projectPath + theme.src, ...themeExclude];
