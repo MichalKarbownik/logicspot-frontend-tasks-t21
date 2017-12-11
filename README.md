@@ -5,7 +5,7 @@ This repos is currently up to date with "SnowdogApps/magento2-frontools": "1.5.8
 ### Quick Start
 
 * `gulp dev` - For local dev. Runs [browserSync](https://www.browsersync.io/) and `inheritance`, `scripts`, `styles`, `watch` tasks.
-* `gulp deploy` - Deploy styles. Run `clean`, `inheritance`, `scripts` and `styles` tasks. Everything you should need for a deployment. See below for flags you can add to customize the output.
+* `gulp build` - Deploy styles. Run `clean`, `inheritance`, `scripts` and `styles` tasks. Everything you should need for a deployment. See below for flags you can add to customize the output.
 
 ### General Notes
 
@@ -31,11 +31,11 @@ Start of with adding this package as a dependency to your project, and setting u
 	},
 	"scripts": {
 	  "dev": "gulp dev",
-	  "deploy:local": "gulp deploy --ci",
-	  "deploy:dev": "gulp deploy --config vendor --ci",
-	  "deploy:staging": "gulp deploy --config vendor --ci --prod",
-	  "deploy:live": "gulp deploy --config vendor --ci --prod",
-	  "deploy:test": "gulp deploy --config vendor --ci --prod"
+	  "build:local": "gulp deploy --ci",
+	  "build:dev": "gulp deploy --config vendor --ci",
+	  "build:staging": "gulp deploy --config vendor --ci --prod",
+	  "build:live": "gulp deploy --config vendor --ci --prod",
+	  "build:test": "gulp deploy --config vendor --ci --prod"
 	},
 }
 ```
