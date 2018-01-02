@@ -22,14 +22,9 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 			const theme = config.themes[name],
 				  themeTempSrc = config.tempPath + theme.dest.replace('pub/static', ''),
 				  themeDest = config.projectPath + theme.dest,
-				  themeExclude = [...config.ignore, ...(theme.ignore ? theme.ignore: [])];
+				  themeSrc = [config.projectPath + theme.src];
 
-			themeExclude.forEach((value, index, array) => {
-				array[index] = '!' + value;
-				array[index] = '!./' + value;
-			});
-
-			const themeSrc = [config.projectPath + theme.src, ...themeExclude];
+			let excludeFiles = [...config.ignore, ...(theme.ignore ? theme.ignore: [])];
 
 			// Add modules source directeoried to theme source paths array
 			if (theme.modules) {
@@ -41,16 +36,17 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 			// Chokidar watcher config
 			const watcherConfig = { // eslint-disable-line one-var
 				ignoreInitial: true,
-				usePolling: config.watcher.usePolling
+				usePolling: config.watcher.usePolling,
+				ignored: excludeFiles
 			};
 
 			// Initialize watchers
 			const tempWatcher = plugins.chokidar.watch(themeTempSrc, watcherConfig), // eslint-disable-line one-var
-				  srcWatcher = plugins.chokidar.watch(themeSrc, watcherConfig),
-				  destWatcher = plugins.chokidar.watch(themeDest, watcherConfig);
+			      srcWatcher = plugins.chokidar.watch(themeSrc, watcherConfig),
+			      destWatcher = plugins.chokidar.watch(themeDest, watcherConfig);
 
 			let reinitTimeout = false,
-				sassDependecyTree = {};
+			    sassDependecyTree = {};
 
 			function generateSassDependencyTree() {
 				// Cleanup tree
@@ -58,8 +54,8 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 
 				// Find all main SASS files
 				plugins.globby.sync([
-					themeTempSrc + '/**/*.scss',
-					'!/**/_*.scss'
+				themeTempSrc + '/**/*.scss',
+				'!/**/_*.scss'
 				]).forEach(file => {
 					// Generate array of main file dependecies
 					sassDependecyTree[file] = plugins.helper.dependecyTree(plugins, file);
@@ -100,10 +96,10 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 						tempWatcher.add(themeTempSrc);
 
 						// Emit event on added / moved / renamed / deleted file to trigger regualr pipeline
-						plugins.globby.sync([themeTempSrc + '/**/' + plugins.path.basename(path), ...themeExclude])
-							.forEach(file => {
-								tempWatcher.emit('change', file);
-							});
+						plugins.globby.sync(themeTempSrc + '/**/' + plugins.path.basename(path))
+						.forEach(file => {
+							tempWatcher.emit('change', file);
+						});
 					});
 				}, 100);
 			}
@@ -127,6 +123,7 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 
 			// Events handling
 			tempWatcher.on('change', path => {
+
 				// Print message to know what's going on
 				plugins.util.log(
 					plugins.util.colors.yellow('Change detected.') + ' ' +
@@ -138,20 +135,29 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 
 				// SASS Compilation
 				if (plugins.path.extname(path) === '.scss') {
+					let found = false;
+
 					Object.keys(sassDependecyTree).forEach(file => {
-						if (sassDependecyTree[file].includes(path)) {
+						if (sassDependecyTree[file].includes('.' + plugins.path.sep + path)) {
+							found = true;
 							plugins.helper.sass(gulp, plugins, config, name, file);
 						}
 					});
+					
+					if(found) { 
+						plugins.util.log( plugins.util.colors.yellow('Compiling SASS...') );
+					}
 				}
 
 				// Babel
 				if (plugins.path.basename(path).includes('.js')) {
+					plugins.util.log( plugins.util.colors.yellow('Compiling JS...') );
 					plugins.helper.babel(gulp, plugins, config, name, path);
 				}
 
 				// SVG Sprite
 				if (plugins.path.extname(path) === '.svg') {
+					plugins.util.log( plugins.util.colors.yellow('Compiling SVG...') );
 					plugins.helper.svg(gulp, plugins, config, name);
 				}
 
@@ -162,7 +168,7 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 					plugins.browserSync.reload();
 				}
 			});
-
+		
 		});
 
 		resolve();
