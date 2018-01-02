@@ -9,11 +9,9 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 		plugins.path                 = require('path');
 		plugins.helper               = {};
 		plugins.helper.babel         = require('../helper/babel');
-		plugins.helper.cssLint       = require('../helper/css-lint');
 		plugins.helper.dependecyTree = require('../helper/dependency-tree-builder');
 		plugins.helper.inheritance   = require('../helper/inheritance-resolver');
 		plugins.helper.sass          = require('../helper/scss');
-		plugins.helper.sassLint      = require('../helper/sass-lint');
 		plugins.helper.svg           = require('../helper/svg');
 
 		plugins.util.log(
@@ -138,13 +136,6 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 					plugins.util.colors.blue(plugins.path.relative(config.projectPath, path))
 				);
 
-				// SASS Lint
-				if (plugins.util.env.enableLinting) {
-					if (plugins.path.extname(path) === '.scss') {
-						plugins.helper.sassLint(gulp, plugins, config, name, path);
-					}
-				}
-
 				// SASS Compilation
 				if (plugins.path.extname(path) === '.scss') {
 					Object.keys(sassDependecyTree).forEach(file => {
@@ -169,15 +160,6 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 					return plugins.path.extname(path) === ext;
 				})) {
 					plugins.browserSync.reload();
-				}
-			});
-
-			destWatcher.on('change', path => {
-				// CSS Lint
-				if (!plugins.util.env.disableLinting) {
-					if (plugins.path.extname(path) === '.css') {
-						plugins.helper.cssLint(gulp, plugins, config, name, path);
-					}
 				}
 			});
 

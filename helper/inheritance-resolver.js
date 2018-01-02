@@ -18,7 +18,7 @@ module.exports = function (plugins, config, name, tree = true) { // eslint-disab
 
 			createSymlink(
 				srcPath,
-				path.join(dest, cleanSrcPath).replace(cleanSrc + '/', (replacePattern.length > 0 ? replacePattern + '/' : ''))
+				path.join(dest, cleanSrcPath).replace(cleanSrc + path.sep, (replacePattern.length > 0 ? replacePattern + path.sep : ''))
 			);
 		});
 	}

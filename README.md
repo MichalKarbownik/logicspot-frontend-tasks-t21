@@ -1,6 +1,6 @@
 ## Logicspot (http://logicspot.com) Frontend Tasks for Magneto 2
 
-This repos is currently up to date with "SnowdogApps/magento2-frontools": "1.5.8",
+This repos is currently up to date with "SnowdogApps/magento2-frontools": "1.5.10",
 
 ### Quick Start
 
@@ -30,12 +30,15 @@ Start of with adding this package as a dependency to your project, and setting u
 		"logicspot-frontend-tasks": "^2.2.0"
 	},
 	"scripts": {
-	  "dev": "gulp dev",
-	  "build:local": "gulp deploy --ci",
-	  "build:dev": "gulp deploy --config vendor --ci",
-	  "build:staging": "gulp deploy --config vendor --ci --prod",
-	  "build:live": "gulp deploy --config vendor --ci --prod",
-	  "build:test": "gulp deploy --config vendor --ci --prod"
+	    "dev":            "gulp dev",
+    	"clean":          "gulp clean",
+    
+    	"build":          "npm run build:local",
+    	"build:local":    "gulp deploy --ci",
+    	"build:dev":      "gulp deploy --config vendor --ci",
+    	"build:staging":  "gulp deploy --config vendor --ci --prod",
+    	"build:live":     "gulp deploy --config vendor --ci --prod",
+    	"build:test":     "gulp deploy --config vendor --ci --prod"
 	},
 }
 ```
@@ -77,23 +80,14 @@ Check `config/watcher.json` to get samples.
 	* `--prod` - Production output - minifies and uglyfy code.
 * `browser-sync` - Run [browserSync](https://www.browsersync.io/).
 * `clean` - Removes `/pub/static` and `var/view_preprocessed` directory content
-* `csslint` - Run [stylelint](https://github.com/stylelint/stylelint) based tests.
-	* `--theme name` - Process single theme.
-	* `--ci` - Enable throwing errors. Useful in CI/CD pipelines.
 * `default` - type `gulp` to see this readme in console.
 * `deploy` - Symlink or copy all static assets to `pub/static`. Runs `clean` and `inheritance` tasks.
 	* `--theme name` - Specify theme to deploy.
 	* `--prod` - Copy files instead of making symlinks.
 * `dev` - Runs [browserSync](https://www.browsersync.io/) and `inheritance`, `scripts`, `styles`, `watch` tasks.
   * `--theme name` - Process single theme.
-  * `--disableLinting` - Disable SASS and CSS linting.
   * `--disableMaps` - Toggles source maps generation.
-* `eslint` - Watch and run [eslint](https://github.com/adametry/gulp-eslint) on specified JS file.
-	* `--file fileName` - You have to specify what file you want to lint, fileName without .js.
 * `inheritance` - Create necessary symlinks to resolve theme styles inheritance and make the base for styles processing. You have to run in before styles compilation and after adding new files.
-* `sasslint` - Run [sass-lint](https://github.com/sasstools/sass-lint) based tests.
-	* `--theme name` - Process single theme.
-	* `--ci` - Enable throwing errors. Useful in CI/CD pipelines.
 * `styles` - Use this task to manually trigger styles processing pipeline.
 	* `--theme name` - Process single theme.
 	* `--disableMaps` - Toggles source maps generation.
@@ -101,5 +95,4 @@ Check `config/watcher.json` to get samples.
 	* `--ci` - Enable throwing errors. Useful in CI/CD pipelines.
 * `watch` - Watch for style changes and run processing tasks.
 	* `--theme name` - Process single theme.
-	* `--enableLinting` - Enable SASS and CSS linting.
 	* `--disableMaps` - Enable inline source maps generation.

@@ -38,7 +38,7 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
               config.projectPath + theme.dest + '/' + locale
             )
             .replace(
-              new RegExp('web\/([^_]*)$'),
+              new RegExp('web/([^_]*)$'),
               '$1'
             )
         );
