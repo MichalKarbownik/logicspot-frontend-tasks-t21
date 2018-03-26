@@ -19,6 +19,7 @@ module.exports = function (gulp, plugins, config, name) { // eslint-disable-line
 	)
     .pipe(plugins.uglify())
     .pipe(plugins.multiDest(optimizeDest))
+    .on('error', err => plugins.log(plugins.ansiColors.red('[Error]'), err.toString()) )
     .pipe(plugins.logger({
       display   : 'name',
       beforeEach: 'Theme: ' + name + ' ',
