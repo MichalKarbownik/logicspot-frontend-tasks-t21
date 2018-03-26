@@ -6,7 +6,7 @@ module.exports = function (customConfig) {
 	const gulp = require('gulp');
 	const path = require('path');
 	const plugins = require('gulp-load-plugins')({
-		pattern: ['*', '!gulp', '!gulp-load-plugins', 'gulp-simple-task-loader'],
+		pattern: ['*', '!gulp', '!gulp-load-plugins', '!minimist', 'gulp-simple-task-loader'],
 		rename: {
 			'browser-sync': 'browserSync',
 			'fs-extra': 'fs',
@@ -16,8 +16,13 @@ module.exports = function (customConfig) {
 			'merge-stream': 'mergeStream',
 			'postcss-reporter': 'reporter',
 			'run-sequence': 'runSequence',
+			'ansi-colors': 'ansiColors',
+			'fancy-log': 'log',
+			'plugin-error': 'pluginError'
 		}
 	});
+
+	plugins.minimist = require('minimist')(process.argv.slice(2));
 
 	// Set up config, using default and custom
 
@@ -33,8 +38,8 @@ module.exports = function (customConfig) {
 
 	// Allow the themes config to be set manaually
 
-	if (typeof plugins.util.env.config !== "undefined") {
-		config.themes = require('./helper/config-loader')('themes-' + plugins.util.env.config + '.json', plugins, config, false);
+	if (typeof plugins.minimist.config !== "undefined") {
+		config.themes = require('./helper/config-loader')('themes-' + plugins.minimist.config + '.json', plugins, config, false);
 	} else {
 		config.themes = require('./helper/config-loader')('themes.json', plugins, config, false);
 	}

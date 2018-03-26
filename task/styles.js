@@ -6,7 +6,7 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 			streams = plugins.mergeStream();
 
 		// Generate all necessary symlinks before styles compilation, but ony if not a part of tasks pipeline
-		if (!plugins.util.env.pipeline) {
+		if (!plugins.minimist.pipeline) {
 		  plugins.runSequence('inheritance');
 		}
 

@@ -11,7 +11,7 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 
 		// 		// Create a relative symlink in project root to /vendor/snowdog/frontools
 		// 		relativeDirectory    = path.relative(config.projectPath, plugins.fs.realpathSync('./')),
-		// 		symlinkDirectoryName = plugins.util.env.symlink || 'tools',
+		// 		symlinkDirectoryName = plugins.minimist.symlink || 'tools',
 
 		// 		// Set config files paths
 		// 		configSamplesPath    = './config/',
@@ -20,13 +20,13 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 		// try {
 		// 	plugins.fs.symlinkSync(relativeDirectory, config.projectPath + '/' + symlinkDirectoryName, 'dir');
 
-		// 	plugins.util.log(
-		// 		plugins.util.colors.green('Symlink created. You can now use Frontools from the "' + symlinkDirectoryName + '" directory.')
+		// 	plugins.log(
+		// 		plugins.ansiColors.green('Symlink created. You can now use Frontools from the "' + symlinkDirectoryName + '" directory.')
 		// 	);
 		// }
 		// catch (error) {
-		// 	plugins.util.log(
-		// 		plugins.util.colors.yellow(symlinkDirectoryName + ' already exists. Skipped it.')
+		// 	plugins.log(
+		// 		plugins.ansiColors.yellow(symlinkDirectoryName + ' already exists. Skipped it.')
 		// 	);
 		// }
 
@@ -40,17 +40,17 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 		// 			errorOnExist: true
 		// 		});
 
-		// 		plugins.util.log('File ' + fileName + ' copied to /dev/tools/frontools/config/' + newFileName);
+		// 		plugins.log('File ' + fileName + ' copied to /dev/tools/frontools/config/' + newFileName);
 		// 	}
 		// 	catch (error) {
-		// 		plugins.util.log(
-		// 			plugins.util.colors.yellow('File ' + newFileName + ' already exists. Skipped it.')
+		// 		plugins.log(
+		// 			plugins.ansiColors.yellow('File ' + newFileName + ' already exists. Skipped it.')
 		// 		);
 		// 	}
 		// });
 
-		// plugins.util.log(
-		// 	plugins.util.colors.green('Setup complete! Go to "/dev/tools/frontools/config/" directory and edit the configuration there.')
+		// plugins.log(
+		// 	plugins.ansiColors.green('Setup complete! Go to "/dev/tools/frontools/config/" directory and edit the configuration there.')
 		// );
 
 	}

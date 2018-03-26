@@ -26,7 +26,7 @@ module.exports = function(file, plugins, config, failOnError) { // eslint-disabl
 	}
 	else {
 		if (failOnError) {
-			throw new plugins.util.PluginError({
+			throw new plugins.pluginError({
 				'plugin' : 'config',
 				'message': plugins.errorMessage('You have to create ' + file)
 			})

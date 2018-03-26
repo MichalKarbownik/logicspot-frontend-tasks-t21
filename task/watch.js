@@ -14,8 +14,8 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 		plugins.helper.sass          = require('../helper/scss');
 		plugins.helper.svg           = require('../helper/svg');
 
-		plugins.util.log(
-			plugins.util.colors.yellow('Initializing watcher...')
+		plugins.log(
+			plugins.ansiColors.yellow('Initializing watcher...')
 		);
 
 		themes.forEach(name => {
@@ -70,18 +70,18 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 
 				// Timeout to run only once while moving or renaming files
 				reinitTimeout = setTimeout(() => {
-					plugins.util.log(
-						plugins.util.colors.yellow('Change detected.') + ' ' +
-						plugins.util.colors.green('Theme:') + ' ' +
-						plugins.util.colors.blue(name) + ' ' +
-						plugins.util.colors.green('File:') + ' ' +
-						plugins.util.colors.blue(plugins.path.relative(config.projectPath, path))
+					plugins.log(
+						plugins.ansiColors.yellow('Change detected.') + ' ' +
+						plugins.ansiColors.green('Theme:') + ' ' +
+						plugins.ansiColors.blue(name) + ' ' +
+						plugins.ansiColors.green('File:') + ' ' +
+						plugins.ansiColors.blue(plugins.path.relative(config.projectPath, path))
 					);
 
-					plugins.util.log(
-						plugins.util.colors.yellow('Resolving inheritance.') + ' ' +
-						plugins.util.colors.green('Theme:') + ' ' +
-						plugins.util.colors.blue(name)
+					plugins.log(
+						plugins.ansiColors.yellow('Resolving inheritance.') + ' ' +
+						plugins.ansiColors.green('Theme:') + ' ' +
+						plugins.ansiColors.blue(name)
 					);
 
 					// Disable watcher to not fire tons of events while solving inheritance
@@ -113,11 +113,11 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 
 			// print msg when temp dir watcher is initialized
 			tempWatcher.on('ready', () => {
-				plugins.util.log(
-					plugins.util.colors.yellow('Watcher initialized!') + ' ' +
-					plugins.util.colors.green('Theme:') + ' ' +
-					plugins.util.colors.blue(name) + ' ' +
-					plugins.util.colors.green('and dependencies...')
+				plugins.log(
+					plugins.ansiColors.yellow('Watcher initialized!') + ' ' +
+					plugins.ansiColors.green('Theme:') + ' ' +
+					plugins.ansiColors.blue(name) + ' ' +
+					plugins.ansiColors.green('and dependencies...')
 				);
 			});
 
@@ -125,12 +125,12 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 			tempWatcher.on('change', path => {
 
 				// Print message to know what's going on
-				plugins.util.log(
-					plugins.util.colors.yellow('Change detected.') + ' ' +
-					plugins.util.colors.green('Theme:') + ' ' +
-					plugins.util.colors.blue(name) + ' ' +
-					plugins.util.colors.green('File:') + ' ' +
-					plugins.util.colors.blue(plugins.path.relative(config.projectPath, path))
+				plugins.log(
+					plugins.ansiColors.yellow('Change detected.') + ' ' +
+					plugins.ansiColors.green('Theme:') + ' ' +
+					plugins.ansiColors.blue(name) + ' ' +
+					plugins.ansiColors.green('File:') + ' ' +
+					plugins.ansiColors.blue(plugins.path.relative(config.projectPath, path))
 				);
 
 				// SASS Compilation
@@ -145,19 +145,19 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 					});
 					
 					if(found) { 
-						plugins.util.log( plugins.util.colors.yellow('Compiling SASS...') );
+						plugins.log( plugins.ansiColors.yellow('Compiling SASS...') );
 					}
 				}
 
 				// Babel
 				if (plugins.path.basename(path).includes('.js')) {
-					plugins.util.log( plugins.util.colors.yellow('Compiling JS...') );
+					plugins.log( plugins.ansiColors.yellow('Compiling JS...') );
 					plugins.helper.babel(gulp, plugins, config, name, path);
 				}
 
 				// SVG Sprite
 				if (plugins.path.extname(path) === '.svg') {
-					plugins.util.log( plugins.util.colors.yellow('Compiling SVG...') );
+					plugins.log( plugins.ansiColors.yellow('Compiling SVG...') );
 					plugins.helper.svg(gulp, plugins, config, name);
 				}
 

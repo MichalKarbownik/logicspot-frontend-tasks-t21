@@ -2,7 +2,7 @@
 module.exports = function(gulp, config, plugins) { // eslint-disable-line func-names
 	return () => {
 
-		if(!plugins.util.env.prod) return;
+		if(!plugins.minimist.prod) return;
 
 		// Global variables
 		const themes  = plugins.getThemes(),

@@ -14,7 +14,7 @@ module.exports = function(gulp, plugins, config, name) { // eslint-disable-line 
 	return gulp.src(srcBase + '/**/icons/**/*.svg')
 		.pipe(
 			plugins.if(
-				!plugins.util.env.ci,
+				!plugins.minimist.ci,
 				plugins.plumber({
 				  errorHandler: plugins.notify.onError('Error: <%= error.message %>')
 				})

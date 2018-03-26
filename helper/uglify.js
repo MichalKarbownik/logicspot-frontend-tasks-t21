@@ -14,8 +14,6 @@ module.exports = function (gulp, plugins, config, name) { // eslint-disable-line
     optimizeSrc.push(path + '/' + cleanFilePattern);
   });
 
-  console.log(optimizeSrc, optimizeDest);
-
 	return gulp.src(
 		[...optimizeSrc, '!**/*.min.js']
 	)

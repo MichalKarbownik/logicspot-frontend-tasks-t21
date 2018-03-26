@@ -5,8 +5,8 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
 	    srcBase     = config.projectPath + 'var/view_preprocessed/logicspot' + theme.dest.replace('pub/static', ''),
 	    stylesDir   = path.normalize(theme.stylesDir ? theme.stylesDir : 'styles'),
 	    dest        = [],
-		disableMaps = plugins.util.env.disableMaps || false,
-		production  = plugins.util.env.prod || false,
+		disableMaps = plugins.minimist.disableMaps || false,
+		production  = plugins.minimist.prod || false,
 		disableSuffix = theme.disableSuffix || false,
 		postcss     = [],
 		themeExclude = [...config.ignore, ...(theme.ignore ? theme.ignore: [])];
@@ -44,7 +44,7 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
 	)
 		.pipe(
 			plugins.if(
-				!plugins.util.env.ci,
+				!plugins.minimist.ci,
 				plugins.plumber({
 					errorHandler: plugins.notify.onError('Error: <%= error.message %>')
 				})
@@ -53,7 +53,7 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
 		.pipe(plugins.if(!disableMaps && !production, plugins.sourcemaps.init()))
 		.pipe(
 			plugins.sass()
-			.on('error', plugins.sassError.gulpSassError(plugins.util.env.ci || false))
+			.on('error', plugins.sassError.gulpSassError(plugins.minimist.ci || false))
 		)
 		.pipe(plugins.if(production, plugins.postcss([plugins.cssnano({ discardUnused: { fontFace: false } })])))
 		.pipe(plugins.if(postcss.length, plugins.postcss(postcss || [])))

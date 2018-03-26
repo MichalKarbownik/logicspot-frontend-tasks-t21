@@ -6,8 +6,8 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
 		dest = [],
 		pathsToClean = [],
 		jsFilePattern = theme.jsFilePattern ? theme.jsFilePattern : 'web/js/**/*.js',
-		disableMaps = plugins.util.env.disableMaps || false,
-		production = plugins.util.env.prod || false,
+		disableMaps = plugins.minimist.disableMaps || false,
+		production = plugins.minimist.prod || false,
 		themeExclude = [...config.ignore, ...(theme.ignore ? theme.ignore : [])],
 		babelConfig = {
 			presets: ['env', 'react']
@@ -51,7 +51,7 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
 	)
     .pipe(
       plugins.if(
-        !plugins.util.env.ci,
+        !plugins.minimist.ci,
         plugins.plumber({
           errorHandler: plugins.notify.onError('Error: <%= error.message %>')
         })
