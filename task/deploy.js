@@ -4,6 +4,6 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 		// Tasks to run when deploying to server
 		plugins.minimist.pipeline = true;
 
-		plugins.runSequence('inheritance', 'scripts', 'styles', 'optimize');
+		plugins.runSequence('inheritance', 'scripts', 'styles');
    };
 };
