@@ -1,7 +1,7 @@
 {
   "name": "logicspot-frontend-tasks",
   "description": "Build Tasks for Logicspot Magento 2 sites",
-  "version": "2.4.4",
+  "version": "2.4.5",
   "author": "LogicSpot <developers@logicspot.com> (http://logicspot.com)",
   "repository": {
     "type": "git",
@@ -10,11 +10,11 @@
   "license": "MIT",
   "dependencies": {
     "ansi-colors": "^1.1.0",
-    "autoprefixer": "~8.3.0",
-    "babel-core": "^6.26.0",
+    "autoprefixer": "~8.4.1",
+    "babel-core": "^6.26.3",
     "babel-preset-env": "~1.6.1",
     "babel-preset-react": "~6.24.1",
-    "browser-sync": "~2.23.6",
+    "browser-sync": "~2.24.1",
     "chokidar": "~2.0.3",
     "cssnano": "~3.10.0",
     "fancy-log": "^1.3.2",
