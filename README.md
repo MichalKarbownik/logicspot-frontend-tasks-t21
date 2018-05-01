@@ -110,7 +110,7 @@ Here's a basic `webpack.config.js` example.
 ```javascript
 const path = require('path');
 
-const jsPath = path.resolve(__dirname, 'web/js-webpack/');
+const jsPath = path.resolve(__dirname, '../../modules/logicspot_itl-frontend-theme/web/js-webpack/');
 
 module.exports = {
     entry: {
@@ -120,6 +120,18 @@ module.exports = {
     output: {
         path: jsPath + '/dist/',
         filename: '[name].bundle.js'
+    },
+    module: {
+        loaders: [
+            {
+                loader: 'babel-loader',
+                test: /\.js$/,
+                exclude: /(node_modules|bower_components)/,
+                query: {
+                    presets: ['env']
+                }
+            }
+        ]
     }
 };
 ```
