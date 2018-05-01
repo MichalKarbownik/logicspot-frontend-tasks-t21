@@ -4,10 +4,9 @@ const path = require('path');
 
 module.exports = function (gulp, plugins, config, name, file) { // eslint-disable-line func-names
 
-    const theme = config.themes[name];
-    const webpackConfig = require(path.resolve(theme.src + '/webpack.config.js'));
+    const webpackConfig = require(config.projectPath + 'webpack.config.js');
 
-    if (!webpackConfig) return;
+    if (!webpackConfig) return gulp;
 
     return gulp.src(webpackConfig.entry.global)
         .pipe(plugins.webpack(webpackConfig))
