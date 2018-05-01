@@ -9,9 +9,7 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
 		disableMaps = plugins.minimist.disableMaps || false,
 		production = plugins.minimist.prod || false,
 		themeExclude = [...config.ignore, ...(theme.ignore ? theme.ignore : [])],
-		babelConfig = {
-			presets: ['env', 'react']
-		};
+    babelConfig = Object.assign({ "presets": ["env"] }, theme.babel || {});
 
 	themeExclude.forEach((value, index, array) => {
     array[index] = '!' + value;
