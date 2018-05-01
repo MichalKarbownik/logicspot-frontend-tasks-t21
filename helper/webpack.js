@@ -5,20 +5,31 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
     const srcBase   = config.projectPath + 'var/view_preprocessed/logicspot' + theme.dest.replace('pub/static', '');
     const dest      = [];
 
+    theme.locale.forEach(locale => {
+		dest.push(config.projectPath + theme.dest + '/' + locale);
+	});
+
     const configFile = path.resolve(srcBase + '/webpack.config.js');
 
     if(! plugins.fs.pathExistsSync(configFile) ) {
         return gulp.src('.');
     }
 
-    const webpackConfig = require(configFile);
+    let webpackConfig = require(configFile);
+
+    webpackConfig = {
+        ...webpackConfig,
+        resolve: { 
+            modules: [config.projectPath, "node_modules"]
+        }
+    };
 
     return gulp.src(
         webpackConfig.entry.global,
         { base: srcBase }
     )
         .pipe(plugins.webpack(webpackConfig))
-        .pipe(gulp.dest(webpackConfig.output.path))
+        .pipe(gulp.multiDest(dest))
         .pipe(plugins.logger({
 			display   : 'name',
 			beforeEach: 'Theme: ' + name + ' ',
