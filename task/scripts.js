@@ -14,7 +14,7 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
 		// Loop through themes to compile scss or less depending on your config.json
 		themes.forEach(name => {
 			streams.add(require('../helper/babel')(gulp, plugins, config, name));
-			streams.add(require('../helper/webpack')(gulp, plugins, config, name));
+			streams.add(require('../helper/webpackStream')(gulp, plugins, config, name));
 		});
 
 		return streams;

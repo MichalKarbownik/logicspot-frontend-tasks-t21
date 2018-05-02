@@ -19,7 +19,7 @@ module.exports = function (customConfig) {
 			'ansi-colors': 'ansiColors',
 			'fancy-log': 'log',
 			'plugin-error': 'pluginError',
-            'webpack-stream': 'webpack',
+            'webpack-stream': 'webpackStream',
 		}
 	});
 
