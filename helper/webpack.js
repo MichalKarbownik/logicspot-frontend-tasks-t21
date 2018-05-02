@@ -6,7 +6,7 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
     const dest      = [];
 
     theme.locale.forEach(locale => {
-		dest.push(config.projectPath + theme.dest + '/' + locale);
+		dest.push(config.projectPath + theme.dest + '/' + locale + '/js');
 	});
 
     const configFile = path.resolve(srcBase + '/webpack.config.js');
@@ -19,7 +19,7 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
 
     webpackConfig = {
         ...webpackConfig,
-        resolve: { 
+        resolve: {
             modules: [config.projectPath, "node_modules"]
         }
     };
@@ -29,11 +29,11 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
         { base: srcBase }
     )
         .pipe(plugins.webpack(webpackConfig))
-        .pipe(gulp.multiDest(dest))
+        .pipe(plugins.multiDest(dest))
         .pipe(plugins.logger({
 			display   : 'name',
 			beforeEach: 'Theme: ' + name + ' ',
 			afterEach : ' Compiled Webpack Item!'
 		}));
-    
+
 };
