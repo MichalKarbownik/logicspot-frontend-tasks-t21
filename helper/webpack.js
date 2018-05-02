@@ -6,23 +6,16 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
     const dest      = [];
 
     theme.locale.forEach(locale => {
-		dest.push(config.projectPath + theme.dest + '/' + locale + '/js');
-	});
+        dest.push(config.projectPath + theme.dest + '/' + locale + '/js');
+    });
 
-    const configFile = path.resolve(srcBase + '/webpack.config.js');
+    let webpackConfig = path.resolve(config.projectPath + '/webpack.config.js');
 
-    if(! plugins.fs.pathExistsSync(configFile) ) {
+    if(! plugins.fs.pathExistsSync(webpackConfig) ) {
         return gulp.src('.');
     }
 
-    let webpackConfig = require(configFile);
-
-    webpackConfig = {
-        ...webpackConfig,
-        resolve: {
-            modules: [config.projectPath, "node_modules"]
-        }
-    };
+    webpackConfig = require(webpackConfig);
 
     return gulp.src(
         webpackConfig.entry.global,
@@ -31,9 +24,9 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
         .pipe(plugins.webpack(webpackConfig))
         .pipe(plugins.multiDest(dest))
         .pipe(plugins.logger({
-			display   : 'name',
-			beforeEach: 'Theme: ' + name + ' ',
-			afterEach : ' Compiled Webpack Item!'
-		}));
+            display   : 'name',
+            beforeEach: 'Theme: ' + name + ' ',
+            afterEach : ' Compiled Webpack Item!'
+        }));
 
 };
