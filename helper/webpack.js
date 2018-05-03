@@ -15,7 +15,9 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
         return gulp.src('.');
     }
 
-    webpackConfig = require(webpackConfig);
+    console.log('srcBase', srcBase);
+
+    webpackConfig = require(webpackConfig)(srcBase);
 
     return gulp.src(
         webpackConfig.entry.global,
