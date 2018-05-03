@@ -15,15 +15,13 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
         return gulp.src('.');
     }
 
-    console.log('srcBase', srcBase);
-
     webpackConfig = require(webpackConfig)(srcBase);
 
     return gulp.src(
         webpackConfig.entry.global,
         { base: srcBase }
     )
-        .pipe(plugins.webpack(webpackConfig))
+        .pipe(plugins.webpackStream(webpackConfig))
         .pipe(plugins.multiDest(dest))
         .pipe(plugins.logger({
             display   : 'name',
