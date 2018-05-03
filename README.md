@@ -1,6 +1,6 @@
 ## Logicspot (http://logicspot.com) Frontend Tasks for Magneto 2
 
-This repos is currently up to date with "SnowdogApps/magento2-frontools": "1.5.10",
+This fork is currently up to date with changes in "SnowdogApps/magento2-frontools": "1.5.13",
 
 ### Quick Start
 
