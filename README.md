@@ -108,8 +108,6 @@ Use webpack to create a bundle that will load separately from Require JS. This m
 Here's a basic `webpack.config.js` example.
 
 ```javascript
-const path = require('path');
-
 module.exports = (srcBase) => {
 
     let jsPath = srcBase + '/web/js-webpack';
