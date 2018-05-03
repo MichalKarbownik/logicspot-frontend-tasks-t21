@@ -96,3 +96,43 @@ Check `config/watcher.json` to get samples.
 * `watch` - Watch for style changes and run processing tasks.
 	* `--theme name` - Process single theme.
 	* `--disableMaps` - Enable inline source maps generation.
+
+## Webpack 
+
+Use webpack to create a bundle that will load separately from Require JS. This means you cannot use any of Require's dependencies (such as jQuery), but it will load much faster. It also makes it easy to create separate bundles for global, category page, product page etc.
+
+- Create a `webpack.config.js` in `public_html` with your entries and outputs. See example below.
+- To create a global bundle add `<script src="js/global.js" src_type="path" async="async"/>` into `Magento_Theme/layout/default_head_blocks.xml`
+- To create a product page bundle add `<head><script src="js/product.js" src_type="path" async="async"/></head>` to `Magento_Catalog/layout/catalog_product_view.xml`
+
+Here's a basic `webpack.config.js` example.
+
+```javascript
+module.exports = (srcBase) => {
+
+    let jsPath = srcBase + '/web/js-webpack';
+    
+    return {
+        entry: {
+            global: jsPath + '/global.js',
+            product: jsPath + '/product-page.js',
+        },
+        output: {
+            filename: '[name].bundle.js'
+        },
+        module: {
+            loaders: [
+                {
+                    loader: 'babel-loader',
+                    test: /\.js$/,
+                    exclude: /(node_modules|bower_components)/,
+                    query: {
+                        presets: ['babel-preset-env'].map(require.resolve)
+                    }
+                }
+            ]
+        }
+    };
+
+};
+```

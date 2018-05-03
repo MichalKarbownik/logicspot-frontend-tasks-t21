@@ -18,7 +18,8 @@ module.exports = function (customConfig) {
 			'run-sequence': 'runSequence',
 			'ansi-colors': 'ansiColors',
 			'fancy-log': 'log',
-			'plugin-error': 'pluginError'
+			'plugin-error': 'pluginError',
+            'webpack-stream': 'webpackStream',
 		}
 	});
 
