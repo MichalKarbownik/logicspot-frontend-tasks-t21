@@ -1,64 +1,49 @@
-## Logicspot (http://logicspot.com) Frontend Tasks for Magneto 2
+# Logicspot (http://logicspot.com) Frontend Tasks for Magneto 2
 
-This fork is currently up to date with changes in "SnowdogApps/magento2-frontools": "1.5.13",
+## Quick Start
 
-### Quick Start
+* `npm run dev` - For local dev. Runs [browserSync](https://www.browsersync.io/) and `inheritance`, `scripts`, `styles`, `watch` tasks.
+* `npm run build` - Deploy styles. Run `clean`, `inheritance`, `scripts` and `styles` tasks. Everything you should need for a deployment. See below for flags you can add to customize the output.
+* `npm run build:{enviroment}` - Allows you to specfiy which enviroment to build for, the process differs slightly for each.
+* `npm run clean` - Clears the Magneto caches and symlinks
 
-* `gulp dev` - For local dev. Runs [browserSync](https://www.browsersync.io/) and `inheritance`, `scripts`, `styles`, `watch` tasks.
-* `gulp build` - Deploy styles. Run `clean`, `inheritance`, `scripts` and `styles` tasks. Everything you should need for a deployment. See below for flags you can add to customize the output.
+All of the above tasks are set in the package.json file for each project, so can differ.
 
-### General Notes
+## Introduction
+
+> This fork is currently up to date with changes in "SnowdogApps/magento2-frontools": "1.5.13",
 
 Replaces the default Magento 2 grunt tasks to use gulp/sass/babel and all things nice!
 
 This is a Fork of the Snowdog Apps Frontools, but modified (https://github.com/SnowdogApps/magento2-frontools)
 See their README for additonal help
 
-### Adding to your project
+### Technologies Used
+
+| Area              | Tech |
+| ----------------- | -- |
+| Task Runner       | Gulp |
+| Package Manager   | Require JS & Bower (files are commited), opt in for Webpack |
+| Styles            | SASS |
+| ES Version        | ES6 (with Babel) |
+| Framework         | Foundation 6.4 |
+
+## Installation
 
 Start of with adding this package as a dependency to your project, and setting up some scripts to run.
 
-- Create a `package.json` file:
+1. Make sure you have a frontend theme set up already
+2. Copy the a `config/package.json` file in the magneto `public_html` folder. Note here espeically the `devDependencies` points to this module, and the `build` tasks point to `gulp` with slightly different options for each envrionment.
+3. Also copy the `config/gulpfile.js` file into the same location, and change the development url, or any other options.
+3. Define your themes in `themes.json`, you can copy the sample file in config folder of this module
 
-```
-{
-	"name": "project-name",
-	"description": "Project",
-	"license": "MIT",
-	"version": "1.0.0",
-	"devDependencies": {
-		"logicspot-frontend-tasks": "^2.2.0"
-	},
-	"scripts": {
-	    "dev":            "gulp dev",
-    	"clean":          "gulp clean",
-    
-    	"build":          "npm run build:local",
-    	"build:local":    "gulp deploy --ci",
-    	"build:dev":      "gulp deploy --config vendor --ci",
-    	"build:staging":  "gulp deploy --config vendor --ci --prod",
-    	"build:live":     "gulp deploy --config vendor --ci --prod",
-    	"build:test":     "gulp deploy --config vendor --ci --prod"
-	},
-}
-```
+4. If the location of the FE theme moves between your local and server development, you will need an additional file `themes-vender.json` which will set a theme path. You can have as many of these as you want. They can be selected using the `--config option` - e.g. `gulp deploy --config vendor` will look for `themes-vendor.json`
 
-- Create a `gulpfile.js` with only calls this module with some optional config
+## Configruation
 
-```
-require('logicspot-frontend-tasks')({
-    "browserSync": {
-        "proxy": "https://local.dev",
-        "https": true
-    }
-});
-```
+### `themes.json` avaliable options
 
-- Define your themes in `themes.json`, you can copy the sample file in config folder of this module
-
-## `themes.json` structure
-
-Check `config/themes.json.sample` to get samples
+Check `config/themes.json` to get samples
 - `src` - full path to theme
 - `dest` - full path to `pub/static/[theme_area]/[theme_vendor]/[theme_name]`
 - `locale` - array of available locales
@@ -69,11 +54,11 @@ Check `config/themes.json.sample` to get samples
 - `modules` - list of modules witch you want to map inside your theme
 - `ignore` - array of ignore patterns
 
-## `watcher.json` structure
+### `watcher.json` structure
 Check `config/watcher.json` to get samples.
 - `usePolling` - set this to `true` to successfully watch files over a network (i.e. Docker or Vagrant) or when your watcher dosen't work well. Warining, enabling this option may lead to high CPU utilization! [chokidar docs](https://github.com/paulmillr/chokidar#performance)
 
-## Tasks list
+### Avalaible Gulp Tasks
 
 * `scripts` - Run [Babel](https://babeljs.io/), a compiler for writing next generation JavaScript.
 	* `--theme name` - Process single theme.
@@ -97,42 +82,12 @@ Check `config/watcher.json` to get samples.
 	* `--theme name` - Process single theme.
 	* `--disableMaps` - Enable inline source maps generation.
 
-## Webpack 
+### Webpack (optional)
 
-Use webpack to create a bundle that will load separately from Require JS. This means you cannot use any of Require's dependencies (such as jQuery), but it will load much faster. It also makes it easy to create separate bundles for global, category page, product page etc.
+Optinally use webpack to create a bundle that will load separately from Require JS. This means you cannot use any of Require's dependencies (such as jQuery), but it will load much faster. It also makes it easy to create separate bundles for global, category page, product page etc.
 
-- Create a `webpack.config.js` in `public_html` with your entries and outputs. See example below.
-- To create a global bundle add `<script src="js/global.js" src_type="path" async="async"/>` into `Magento_Theme/layout/default_head_blocks.xml`
-- To create a product page bundle add `<head><script src="js/product.js" src_type="path" async="async"/></head>` to `Magento_Catalog/layout/catalog_product_view.xml`
+To install:
 
-Here's a basic `webpack.config.js` example.
-
-```javascript
-module.exports = (srcBase) => {
-
-    let jsPath = srcBase + '/web/js-webpack';
-    
-    return {
-        entry: {
-            global: jsPath + '/global.js',
-            product: jsPath + '/product-page.js',
-        },
-        output: {
-            filename: '[name].bundle.js'
-        },
-        module: {
-            loaders: [
-                {
-                    loader: 'babel-loader',
-                    test: /\.js$/,
-                    exclude: /(node_modules|bower_components)/,
-                    query: {
-                        presets: ['babel-preset-env'].map(require.resolve)
-                    }
-                }
-            ]
-        }
-    };
-
-};
-```
+1. Copy the `config/webpack.config.js` file in `public_html` with your entries and outputs. See example below.
+2. To create a global bundle add `<script src="js/global.js" src_type="path" async="async"/>` into `Magento_Theme/layout/default_head_blocks.xml`
+3. To create a product page bundle add `<head><script src="js/product.js" src_type="path" async="async"/></head>` to `Magento_Catalog/layout/catalog_product_view.xml`

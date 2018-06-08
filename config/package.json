@@ -1,0 +1,20 @@
+{
+    "name": "project-name",
+    "description": "Project",
+    "license": "MIT",
+    "version": "1.0.0",
+    "devDependencies": {
+        "logicspot-frontend-tasks": "^2.2.0"
+    },
+    "scripts": {
+        "dev":            "gulp dev",
+        "clean":          "gulp clean",
+
+        "build":          "npm run build:local",
+        "build:local":    "gulp deploy --ci",
+        "build:dev":      "gulp deploy --config vendor --ci",
+        "build:staging":  "gulp deploy --config vendor --ci --prod",
+        "build:live":     "gulp deploy --config vendor --ci --prod",
+        "build:test":     "gulp deploy --config vendor --ci --prod"
+	},
+}
