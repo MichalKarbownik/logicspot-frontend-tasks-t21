@@ -16,5 +16,5 @@
         "build:staging":  "gulp deploy --config vendor --ci --prod",
         "build:live":     "gulp deploy --config vendor --ci --prod",
         "build:test":     "gulp deploy --config vendor --ci --prod"
-	},
+	}
 }
