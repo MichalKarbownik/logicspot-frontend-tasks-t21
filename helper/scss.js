@@ -9,7 +9,8 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
 		production  = plugins.minimist.prod || false,
 		disableSuffix = theme.disableSuffix || false,
 		postcss     = [],
-		themeExclude = [...config.ignore, ...(theme.ignore ? theme.ignore: [])];
+		themeExclude = [...config.ignore, ...(theme.ignore ? theme.ignore: [])],
+		browserslist  = require('../helper/config-loader')('browserslist.json', plugins, config);
 
 		themeExclude.forEach((value, index, array) => {
 			array[index] = '!' + value;
@@ -21,7 +22,7 @@ module.exports = function (gulp, plugins, config, name, file) { // eslint-disabl
 			postcss.push(eval(el));
 		});
 	} else {
-		postcss.push(plugins.autoprefixer());
+		postcss.push(plugins.autoprefixer({ browsers: browserslist }));
 	}
 
 	function adjustDestinationDirectory(file) {

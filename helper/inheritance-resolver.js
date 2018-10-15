@@ -10,7 +10,7 @@ module.exports = function (plugins, config, name, tree = true) { // eslint-disab
 
 	function generateSymlinks(src, dest, replacePattern, ignore = []) {
 		plugins.globby.sync(
-			[src + '/**'].concat(ignore.map(pattern => '!/**/' + pattern)),
+			[src + '/**'].concat(ignore.map(pattern => '!**/' + pattern)),
 			{ nodir: true }
 		).forEach(srcPath => {
 			let cleanSrcPath = srcPath.replace(/^(\.\.[\/\\])*/, '');
@@ -46,14 +46,14 @@ module.exports = function (plugins, config, name, tree = true) { // eslint-disab
 		themeDependencyTree(name).forEach(themeName => {
 			const theme = config.themes[themeName],
 				themeSrc = path.normalize(config.projectPath + theme.src),
-				themeDest = path.normalize(config.tempPath + theme.dest.replace('pub/static', ''));
+				themeDest = config.tempPath + theme.dest.replace(/(.*)(?=frontend|adminhtml)/, '/');
 
 			// Clean destination dir before generating new symlinks
 			plugins.fs.removeSync(themeDest);
 
 			// Create symlinks for parent theme
 			if (theme.parent) {
-				const parentSrc = config.tempPath + config.themes[theme.parent].dest.replace('pub/static', '');
+				const parentSrc = config.tempPath + config.themes[theme.parent].dest.replace(/(.*)(?=frontend|adminhtml)/, '/');
 				generateSymlinks(parentSrc, themeDest, '', config.themes[theme.parent].ignore);
 			}
 

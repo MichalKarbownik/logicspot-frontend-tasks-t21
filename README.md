@@ -11,7 +11,7 @@ All of the above tasks are set in the package.json file for each project, so can
 
 ## Introduction
 
-> This fork is currently up to date with changes in "SnowdogApps/magento2-frontools": "1.5.13",
+> This fork is currently up to date with changes in "SnowdogApps/magento2-frontools": "1.5.15",
 
 Replaces the default Magento 2 grunt tasks to use gulp/sass/babel and all things nice!
 
