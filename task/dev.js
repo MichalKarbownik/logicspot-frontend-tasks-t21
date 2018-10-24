@@ -4,7 +4,7 @@ module.exports = function(gulp, config, plugins) { // eslint-disable-line func-n
       // Prevent runing inheritance task more than once
       plugins.minimist.pipeline = true;
 
-      plugins.runSequence('inheritance', 'scripts', 'styles', () => {
+      plugins.runSequence('inheritance', 'styles', 'scripts', () => {
 		// Setup browser-sync
 		plugins.browserSync.create();
 		plugins.browserSync(
