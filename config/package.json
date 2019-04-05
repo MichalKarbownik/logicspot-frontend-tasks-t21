@@ -11,6 +11,6 @@
         "clean":          "gulp clean",
 
         "build":          "gulp deploy --ci",
-        "build:prod":     "gulp deploy --config vendor --ci --prod"
+        "build:prod":     "gulp deploy --ci --prod"
     }
 }
